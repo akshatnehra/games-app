@@ -1,0 +1,11 @@
+.game-card-container{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.game-card {
+    max-width: fit-content;
+    margin: 1rem;
+}
