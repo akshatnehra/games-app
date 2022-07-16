@@ -3,13 +3,12 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './GameCardContainer.css'
 
-const GameCardContainer = (gameData) => {
+const GameCardContainer = ({gameData}) => {
 
-  gameData = gameData.gameData;
-  gameData = Object.values(gameData);
+  let gameDataa = Object.values(gameData);
 
-  const GameCards = gameData.map((data) => {
-    console.log(data);
+  const GameCards = gameDataa.map((data) => {
+
     if(data.title){
       return (
         <div className="game-card">

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar/Navbar';
 const App = () => {
 
     const [gameData, setGameData] = useState({});
+    const [gameDataOriginal, setGameDataOriginal] = useState({});
 
     useEffect(() => {
         const url = "https://s3-ap-southeast-1.amazonaws.com/he-public-data/gamesarena274f2bf.json";
@@ -14,6 +15,7 @@ const App = () => {
             const response = await fetch(url);
             const json = await response.json();
             setGameData(json);
+            setGameDataOriginal(json);
           } catch (error) {
             console.log("error", error);
           }
@@ -22,7 +24,7 @@ const App = () => {
 
   return (
     <div>
-        <Navbar gameData = {gameData} />
+        <Navbar gameData = {[gameData, setGameData, gameDataOriginal]} />
         <GameCardContainer gameData = {gameData} />
     </div>
   )

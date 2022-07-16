@@ -6,30 +6,67 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import './Navbar.css';
 
-function Navbarr(gameData) {
+function Navbarr({gameData}) {
 
-  gameData = gameData.gameData;
+  let setGameData = gameData[1];
+  let gameDataOriginal = gameData[2];
+  gameData = gameData[0];
+
+  console.log(gameDataOriginal);
 
   let platforms = [];
 
-  for(let i in gameData){
-    if(!platforms.includes(gameData[i].platform) && gameData[i].platform !==undefined){
-      platforms.push(gameData[i].platform)
+  for(let i in gameDataOriginal){
+    if(!platforms.includes(gameDataOriginal[i].platform) && gameDataOriginal[i].platform !==undefined){
+      platforms.push(gameDataOriginal[i].platform)
     } 
   }
 
   platforms.sort();
 
+  const filterPlatform = (platform) => {
+    const updatedList = gameDataOriginal.filter((currentGame)=>{
+      return currentGame.platform === platform;
+    });
+
+    setGameData(updatedList);
+  }
+
+  const sortAscending = () => {
+    var newList = gameData.slice(0);
+    newList.sort(function(a,b) {
+      return a.score - b.score;
+    });
+    setGameData(newList)
+  }
+
+  const sortDescending = () => {
+    var newList = gameData.slice(0);
+    newList.sort(function(a,b) {
+      return b.score - a.score;
+    });
+    setGameData(newList)
+  }
+
   const Dropdown = platforms.map((platform, index) => {
     let ref = "#"+platform;
-    return (<NavDropdown.Item href={ref} key={index}>{platform}</NavDropdown.Item>)
+    return (<NavDropdown.Item href={ref} key={index} onClick={()=>filterPlatform(platform)}>{platform}</NavDropdown.Item>)
   })
+
+  const defaultPlatform = () => {
+    const updatedList = gameDataOriginal.filter((currentGame)=>{
+      return 1;
+    });
+
+    setGameData(updatedList);
+  }
+
 
   return (
     <div className="navbar-container">
       <Navbar bg="light" expand="lg">
         <Container fluid>
-          <Navbar.Brand href="#">Games App</Navbar.Brand>
+          <Navbar.Brand href="#" onClick={()=>defaultPlatform()}>Games App</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -37,8 +74,8 @@ function Navbarr(gameData) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#ascending">Sort Ascending</Nav.Link>
-              <Nav.Link href="#descending">Sort Descending</Nav.Link>
+              <Nav.Link href="#ascending" onClick={()=>sortAscending()}>Sort Ascending</Nav.Link>
+              <Nav.Link href="#descending" onClick={()=>sortDescending()}>Sort Descending</Nav.Link>
               <NavDropdown title="Platforms" id="navbarScrollingDropdown">
                 {Dropdown}
               </NavDropdown>
