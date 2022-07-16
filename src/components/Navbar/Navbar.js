@@ -48,6 +48,22 @@ function Navbarr({gameData}) {
     setGameData(newList)
   }
 
+  const searchGames = (searchedString) => {
+    let arr = [];
+    for(let game in gameDataOriginal){
+      if(gameDataOriginal[game].title != undefined){
+        searchedString = searchedString.toUpperCase();
+        let gameName = (gameDataOriginal[game].title).toUpperCase();
+
+        if((gameName).indexOf(searchedString) == 0){
+          arr.push(gameDataOriginal[game]);
+        }
+      }
+    }
+    console.log(arr);
+    setGameData(arr)
+  }
+
   const Dropdown = platforms.map((platform, index) => {
     let ref = "#"+platform;
     return (<NavDropdown.Item href={ref} key={index} onClick={()=>filterPlatform(platform)}>{platform}</NavDropdown.Item>)
@@ -86,6 +102,7 @@ function Navbarr({gameData}) {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e)=>searchGames(e.target.value)}
               />
               <Button variant="outline-success">Search</Button>
             </Form>
